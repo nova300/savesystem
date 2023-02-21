@@ -16,10 +16,10 @@ filer::Data* filer::load(std::string filename)
     }
     else std::cout << "check fail!" << check << fn << std::endl;
 
-    unsigned int size;
+    long size;
     unsigned int crc;
 
-    fs.read((char*)&size, sizeof(int));
+    fs.read((char*)&size, sizeof(long));
     fs.read((char*)&crc, sizeof(int));
 
     std::cout << size <<  std::endl;

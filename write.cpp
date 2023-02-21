@@ -132,10 +132,10 @@ void filer::record(filer::Data* data, std::string filename)
     
 
 
-    long pos = fs.tellp();
-    long size = pos - 24;
+    long size = fs.tellp();
+    //unsigned int size = pos - 24;
     std::cout << keys.size() << " elements" << std::endl;
-    std::cout << pos << " bytes" << std::endl;
+    std::cout << size << " bytes" << std::endl;
     char * buffer = (char*)malloc(size);
     fs.seekg(24);
     fs.read(buffer, size);
@@ -143,8 +143,7 @@ void filer::record(filer::Data* data, std::string filename)
     free(buffer);
     std::cout << "crc: "<< crc << std::endl;
     fs.seekp(4);
-    unsigned int sizefs = size;
-    fs.write((char*)&sizefs, sizeof(int));
+    fs.write((char*)&size, sizeof(long));
     fs.write((char*)&crc, sizeof(int));
     
     fs.close();
