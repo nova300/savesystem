@@ -40,7 +40,7 @@ void filer::record(filer::Data* data, std::string filename)
 {
     srand (time(NULL));
     std::fstream fs;
-    fs.open(filename); 
+    fs.open(filename, std::ios::in | std::ios::out); 
     fs.seekp(1);
     fs.write(fn, 3);
     std::cout << fs.tellp() << std::endl;
@@ -96,6 +96,7 @@ void filer::record(filer::Data* data, std::string filename)
     }
 
     count = values.size();
+    fs.write((char*)&count, sizeof(int));
     for (int i = 0; i < count; i++)
     {
         float value = values[i];
@@ -133,8 +134,8 @@ void filer::record(filer::Data* data, std::string filename)
 
     long pos = fs.tellp();
     long size = pos - 24;
-    std::cout << count << " elements" << std::endl;
-    std::cout << size << " bytes" << std::endl;
+    std::cout << keys.size() << " elements" << std::endl;
+    std::cout << pos << " bytes" << std::endl;
     char * buffer = (char*)malloc(size);
     fs.seekg(24);
     fs.read(buffer, size);
