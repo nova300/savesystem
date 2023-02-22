@@ -45,19 +45,18 @@ void filer::record(filer::Data* data, std::string filename)
     std::fstream fs;
     fs.open(filename, std::fstream::out); 
     fs.seekp(1);
-    fs.write(fn, 3);
+    short cc = fn;
+    fs.write((char*)&cc, 2);
     fs.close();
     fs.open(filename, std::fstream::in | std::fstream::out); 
     fs.seekg(1);
-    char* check = (char*)malloc(3);
-    const char* comp = fn;
-    fs.read(check, 3);
-    if (!strcmp(check, comp))
+    short check;
+    fs.read((char*)&check, 2);
+    if (check == fn)
     {
         std::cout << "check ok!" << std::endl;
     }
     else std::cout << "check fail!" << check << fn << std::endl;
-    free(check);
     fs.seekp(24);
     
     
@@ -146,7 +145,7 @@ void filer::record(filer::Data* data, std::string filename)
     
 
 
-    long size = fs.tellp();
+    unsigned int size = fs.tellp();
     size = size - 24;
     //unsigned int size = pos - 24;
     std::cout << keys.size() << " elements" << std::endl;
@@ -154,12 +153,12 @@ void filer::record(filer::Data* data, std::string filename)
     char * buffer = (char*)malloc(size);
     fs.seekg(24);
     fs.read(buffer, size);
-    unsigned int crc = filer::crc(buffer, size);
+    unsigned short crc = filer::crc(buffer, size);
     free(buffer);
     std::cout << "crc: "<< crc << std::endl;
-    fs.seekp(4);
-    fs.write((char*)&size, sizeof(long));
-    fs.write((char*)&crc, sizeof(int));
+    fs.seekp(3);
+    fs.write((char*)&size, sizeof(int));
+    fs.write((char*)&crc, sizeof(short));
     
     fs.close();
 

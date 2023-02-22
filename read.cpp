@@ -7,27 +7,26 @@ filer::Data* filer::load(std::string filename)
     std::fstream fs;
     fs.open(filename); 
     fs.seekg(1);
-    char* check = (char*)malloc(3);
-    const char* comp = fn;
-    fs.read(check, 3);
-    if (!strcmp(check, comp))
+    short check;
+    fs.read((char*)&check, 2);
+    if (check == fn)
     {
         std::cout << "check ok!" << std::endl;
     }
     else std::cout << "check fail!" << check << fn << std::endl;
 
-    long size;
-    unsigned int crc;
+    unsigned int size;
+    unsigned short crc;
 
-    fs.read((char*)&size, sizeof(long));
-    fs.read((char*)&crc, sizeof(int));
+    fs.read((char*)&size, sizeof(int));
+    fs.read((char*)&crc, sizeof(short));
 
     std::cout << size <<  std::endl;
 
     char * buffer = (char*)malloc(size);
     fs.seekg(24);
     fs.read(buffer, size);
-    unsigned int newcrc = filer::crc(buffer, size);
+    unsigned short newcrc = filer::crc(buffer, size);
     free(buffer);
     fs.seekg(24);
 

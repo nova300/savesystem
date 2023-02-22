@@ -9,7 +9,7 @@
 #include <sstream>
 #include <string.h>
 
-#define fn "MF"
+#define fn 0x464D
 
 namespace filer
 {
