@@ -43,16 +43,16 @@ bool process(std::string const & line)
             std::cout << "floats: " << data->floats.size() << std::endl;
             break;
         }
-        case filer::hash("rand"):
+        case filer::hash("crc"):
         {
             if (args.size() < 2) break;
             if (!args[1].empty())
             {
-                int size = atoi(args[1].c_str());
-                std::cout << size << std::endl;
-                if (size < 1) break;
-                delete(filer::getDataBank(filer::activeData));
-                *filer::getDataBank(filer::activeData) = *filer::getRandomData(size);
+                const char* value = args[1].data();
+                int size = args[1].size();
+                std::cout << value << "     " << size << " bytes" << std::endl;
+                unsigned short crc = filer::crc(value, size);
+                std::cout << "crc: " << crc << std::endl;
             }
             break;
         }

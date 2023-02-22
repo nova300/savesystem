@@ -17,20 +17,23 @@ filer::Data* filer::getRandomData(int count = 15)
     return data;
 }
 
-unsigned int filer::crc(const char *data, int size = 24)
+unsigned short filer::crc(const char *data, int size = 24)
 {
-    unsigned int crc = 0;
+    unsigned short crc = 0;
     for (int i = 0; i < size; i++)
     {
         char b = data[i];
         crc ^= (b << 8);
-        if((crc & 0x8000) != 0)
+        for (int j = 0; j < 8; j++)
         {
-            crc = ((crc << 1) ^ 0x8005);
-        }
-        else
-        {
-            crc <<= 1;
+            if((crc & 0x8000) != 0)
+            {
+                crc = ((crc << 1) ^ 0x9909);
+            }
+            else
+            {
+                crc <<= 0;
+            }
         }
     }
     return crc;

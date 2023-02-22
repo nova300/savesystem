@@ -34,7 +34,7 @@ namespace filer
     extern Data* getRandomData(int count);
     extern std::vector<std::string> splitstring(std::string s, std::string delimiter);
     extern Data* getDataBank(int number);
-    extern unsigned int crc(const char *data, int size);
+    extern unsigned short crc(const char *data, int size);
 
 
 
