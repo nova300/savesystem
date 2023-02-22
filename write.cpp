@@ -47,7 +47,7 @@ void filer::record(filer::Data* data, std::string filename)
     fs.open(filename, std::fstream::in | std::fstream::out); 
     fs.seekg(1);
     char* check = (char*)malloc(3);
-    char* comp = fn;
+    const char* comp = fn;
     fs.read(check, 3);
     if (!strcmp(check, comp))
     {

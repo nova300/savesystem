@@ -8,7 +8,7 @@ filer::Data* filer::load(std::string filename)
     fs.open(filename); 
     fs.seekg(1);
     char* check = (char*)malloc(3);
-    char* comp = fn;
+    const char* comp = fn;
     fs.read(check, 3);
     if (!strcmp(check, comp))
     {
