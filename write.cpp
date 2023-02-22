@@ -40,10 +40,21 @@ void filer::record(filer::Data* data, std::string filename)
 {
     srand (time(NULL));
     std::fstream fs;
-    fs.open(filename, std::ios::in | std::ios::out); 
+    fs.open(filename, std::fstream::out); 
     fs.seekp(1);
     fs.write(fn, 3);
-    std::cout << fs.tellp() << std::endl;
+    fs.close();
+    fs.open(filename, std::fstream::in | std::fstream::out); 
+    fs.seekg(1);
+    char* check = (char*)malloc(3);
+    char* comp = fn;
+    fs.read(check, 3);
+    if (!strcmp(check, comp))
+    {
+        std::cout << "check ok!" << std::endl;
+    }
+    else std::cout << "check fail!" << check << fn << std::endl;
+    free(check);
     fs.seekp(24);
     
     
@@ -133,6 +144,7 @@ void filer::record(filer::Data* data, std::string filename)
 
 
     long size = fs.tellp();
+    size = size - 24;
     //unsigned int size = pos - 24;
     std::cout << keys.size() << " elements" << std::endl;
     std::cout << size << " bytes" << std::endl;
